@@ -76,7 +76,8 @@ public class Encoder {
             char c = entry.getKey();
             fw.append(c);
             fw.append(System.getProperty("line.separator"));
-            fw.append(tree.getCharPrefixHashMap().get(entry.getKey()));
+            String freq = Integer.toString(entry.getValue());
+            fw.append(freq);
             fw.append(System.getProperty("line.separator"));
 
         }
@@ -91,10 +92,13 @@ public class Encoder {
             encodedString.append(tree.getCharPrefixHashMap().get(c));
 
             bits = fromString(tree.getCharPrefixHashMap().get(c));
+           
             data = bits.toByteArray();
 
             //System.out.println(data);
             fs.write(data);
+            bits2 = fromByteArray(data);
+            
         }
         fs.close();
     }

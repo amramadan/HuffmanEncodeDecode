@@ -31,10 +31,10 @@ public class main {
          String fileName = input.next();
          
          
-       
+        
         
         encode = new Encoder(fileName);
-//        /decode = new Decoder(text);
+        decode = new Decoder(encode.getEncodedString().toString());
     }
 
 }
