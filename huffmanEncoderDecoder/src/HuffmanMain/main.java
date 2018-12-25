@@ -29,22 +29,12 @@ public class main {
         Scanner input = new Scanner(System.in);
         System.out.println("Please enter file name :");
          String fileName = input.next();
-         String filePath = System.getProperty("user.dir") + "\\"+fileName+".txt";
          
-        File file = new File(filePath); 
-
-        BufferedReader br = new BufferedReader(new FileReader(file)); 
-  
-       String st; 
-       String text = "";
-        while ((st = br.readLine()) != null)
-        {
-            text += st;
-            System.out.println(st);
-        }
+         
+       
         
-        encode = new Encoder(text);
-        //decode = new Decoder(encode.getEncodedString().toString(), encode.getTree());
+        encode = new Encoder(fileName);
+//        /decode = new Decoder(text);
     }
 
 }

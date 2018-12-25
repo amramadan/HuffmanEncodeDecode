@@ -9,10 +9,16 @@ import java.util.HashMap;
 import java.util.Map;
 import Tree.HuffmanTree;
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.BitSet;
 
 /**
@@ -25,6 +31,9 @@ public class Encoder {
     StringBuilder encodedString;
     Map<Character, Integer> freq;
     FileOutputStream fs;
+    FileWriter fw;
+    BufferedReader br;
+    File file;
     BitSet bits;
     BitSet bits2;
     byte[] data;
@@ -34,11 +43,18 @@ public class Encoder {
      *
      * @param str
      */
-    public Encoder(String str) throws IOException {
+    public Encoder(String filename) throws IOException {
         tree = new HuffmanTree();
         encodedString = new StringBuilder();
         freq = new HashMap<>();
-        fs = new FileOutputStream(System.getProperty("user.dir") + "\\output.txt", true);
+
+        file = new File(System.getProperty("user.dir") + "\\" + filename + ".txt");
+        br = new BufferedReader(new FileReader(file));
+
+        String str = readFromFile(br);
+        
+
+        fw = new FileWriter(System.getProperty("user.dir") + "\\compressed.txt", true);
 
         for (int i = 0; i < str.length(); i++) {
             if (!freq.containsKey(str.charAt(i))) {
@@ -51,19 +67,23 @@ public class Encoder {
         tree.setRoot(tree.buildTree(freq));
 
         tree.setPrefixCodes(tree.getRoot(), new StringBuilder());
-        System.out.println("Character Prefix Map = ff" + tree.getCharPrefixHashMap());
-
+        System.out.println("Character Prefix Map = " + tree.getCharPrefixHashMap());
+        
+        
+//        looping on frequency
         for (Map.Entry<Character, Integer> entry : freq.entrySet()) {
-           
-            String Char = Character.toString(entry.getKey());
-            data2 = Char.getBytes();
-            fs.write(data2);
 
-            //Converting correspondng huffman code to byte array to be wrriten on file for decompression
-            bits2 = fromString(tree.getCharPrefixHashMap().get(entry.getKey()));
-            data2 = bits2.toByteArray();
-            fs.write(data2);
+            char c = entry.getKey();
+            fw.append(c);
+            fw.append(System.getProperty("line.separator"));
+            fw.append(tree.getCharPrefixHashMap().get(entry.getKey()));
+            fw.append(System.getProperty("line.separator"));
+
         }
+        fw.append(System.getProperty("line.separator"));
+        fw.close();
+
+        fs = new FileOutputStream(System.getProperty("user.dir") + "\\compressed.txt", true);
 
         String output = "";
         for (int i = 0; i < str.length(); i++) {
@@ -101,6 +121,7 @@ public class Encoder {
         }
         return bitset;
     }
+
     public static BitSet fromByteArray(byte[] bytes) {
         BitSet bits = new BitSet();
         for (int i = 0; i < bytes.length * 8; i++) {
@@ -109,6 +130,18 @@ public class Encoder {
             }
         }
         return bits;
+    }
+    
+    public static String readFromFile(BufferedReader br) throws IOException
+    {
+        String st;
+        String str = "";
+        while ((st = br.readLine()) != null) {
+            str += st;
+
+        }
+        br.close();
+        return str;
     }
 
 }
