@@ -7,6 +7,7 @@ package Decoder;
 
 import Tree.HuffmanNode;
 import Tree.HuffmanTree;
+import java.util.BitSet;
 
 /**
  *
@@ -20,8 +21,7 @@ public class Decoder {
 
         HuffmanNode temp = encoderTree.getRoot();
 
-        System.out.println("Encoded: " + encoded);
-
+        //System.out.println("Encoded: " + encoded);
         for (int i = 0; i < encoded.length(); i++) {
             int j = Integer.parseInt(String.valueOf(encoded.charAt(i)));
 
@@ -41,8 +41,17 @@ public class Decoder {
             }
         }
 
-        System.out.println("Decoded string is " + stringBuilder.toString());
+        //System.out.println("Decoded string is " + stringBuilder.toString());
+    }
 
+    public static BitSet fromByteArray(byte[] bytes) {
+        BitSet bits = new BitSet();
+        for (int i = 0; i < bytes.length * 8; i++) {
+            if ((bytes[bytes.length - i / 8 - 1] & (1 << (i % 8))) > 0) {
+                bits.set(i);
+            }
+        }
+        return bits;
     }
 
 }

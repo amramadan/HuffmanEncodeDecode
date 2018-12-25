@@ -7,6 +7,12 @@ package HuffmanMain;
 
 import Encoder.Encoder;
 import Decoder.Decoder;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Scanner;
 
 /**
  *
@@ -17,14 +23,28 @@ public class main {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException, IOException {
         Encoder encode;
         Decoder decode;
+        Scanner input = new Scanner(System.in);
+        System.out.println("Please enter file name :");
+         String fileName = input.next();
+         String filePath = System.getProperty("user.dir") + "\\"+fileName+".txt";
+         
+        File file = new File(filePath); 
+
+        BufferedReader br = new BufferedReader(new FileReader(file)); 
+  
+       String st; 
+       String text = "";
+        while ((st = br.readLine()) != null)
+        {
+            text += st;
+            System.out.println(st);
+        }
         
-        String original = "Amr Ramadan";
-        System.out.println("Original Text = " + original);
-        encode = new Encoder(original);
-        decode = new Decoder(encode.getEncodedString().toString(), encode.getTree());
+        encode = new Encoder(text);
+        //decode = new Decoder(encode.getEncodedString().toString(), encode.getTree());
     }
 
 }
