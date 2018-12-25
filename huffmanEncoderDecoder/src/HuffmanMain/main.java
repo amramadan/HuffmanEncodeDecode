@@ -34,7 +34,7 @@ public class main {
         
         
         encode = new Encoder(fileName);
-        decode = new Decoder(encode.getEncodedString().toString());
+        //decode = new Decoder(fileName);
     }
 
 }

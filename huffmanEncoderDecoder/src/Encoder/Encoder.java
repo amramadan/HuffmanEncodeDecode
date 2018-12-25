@@ -92,12 +92,10 @@ public class Encoder {
             encodedString.append(tree.getCharPrefixHashMap().get(c));
 
             bits = fromString(tree.getCharPrefixHashMap().get(c));
-           
             data = bits.toByteArray();
 
             //System.out.println(data);
             fs.write(data);
-            bits2 = fromByteArray(data);
             
         }
         fs.close();
